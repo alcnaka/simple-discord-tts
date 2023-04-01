@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  simple-discord-tts:
+    build: .
+    volumes:
+      - ./:/usr/local/src/simple-discord-tts
+
+
+  voice-backend:
+    image: alcnaka/openjtalk-rest-api:latest
