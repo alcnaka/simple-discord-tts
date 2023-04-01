@@ -28,6 +28,9 @@ class TTSBot(commands.Bot):
 
         self.max_tts_len = 50
 
+    def flush_queue(self) -> None:
+        self.queue: asyncio.Queue[TTSContext] = asyncio.Queue()
+
     async def on_ready(self) -> None:
         logger.info('------')
         logger.info('Logged in as')

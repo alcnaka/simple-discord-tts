@@ -15,4 +15,5 @@ class ControlCommand(commands.Cog):
     @commands.command()
     async def leave(self, ctx) -> None:
         if vc := self.bot.voice_clients:
+            self.bot.flush_queue()
             await vc[0].disconnect(force=True)
