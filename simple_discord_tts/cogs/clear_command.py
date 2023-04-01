@@ -14,7 +14,7 @@ class ClearCog(commands.Cog):
 
     @commands.command()
     async def clear(self, ctx) -> None:
-        """ListenChannel の10分以上前のテキストを削除"""
+        """10分以上前のテキストを削除"""
         channel = self.bot.get_channel(self.bot.listen_channel_id)
         before = datetime.now() - timedelta(minutes=10)
         if type(channel) == TextChannel:
@@ -23,7 +23,7 @@ class ClearCog(commands.Cog):
 
     @commands.command()
     async def clear_all(self, ctx) -> None:
-        """ListenChannel の全テキストを削除"""
+        """全テキストを削除"""
         channel = self.bot.get_channel(self.bot.listen_channel_id)
         if type(channel) == TextChannel:
             msgs = [m async for m in channel.history()]

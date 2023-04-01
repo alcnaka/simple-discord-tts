@@ -27,6 +27,9 @@ class ReadQueueCog(commands.Cog):
         except ClientException as e:
             logger.info('already joined')
             voice_client = self.bot.voice_clients[0]
+            if type(voice_client) != VoiceClient:
+                logger.warning(voice_client)
+                return
             if voice_client.channel != ctx.voice_channel:
                 await voice_client.move_to(ctx.voice_channel)
 
