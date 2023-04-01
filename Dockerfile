@@ -16,4 +16,4 @@ RUN pip install .
 
 EXPOSE 8000
 
-CMD ["python3", "-m", "simple-discord-tts.main"]
+CMD ["python3", "-m", "simple_discord_tts.main"]
