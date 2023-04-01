@@ -15,6 +15,11 @@ class ReadQueueCog(commands.Cog):
     def __init__(self, bot: TTSBot) -> None:
         self.bot = bot
 
+    @commands.command()
+    async def reload(self, ctx) -> None:
+        self.read_queue.stop()
+        self.read_queue.start()
+
     @commands.Cog.listener()
     async def on_ready(self) -> None:
         self.read_queue.start()
