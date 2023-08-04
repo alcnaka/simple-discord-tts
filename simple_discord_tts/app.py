@@ -4,7 +4,7 @@ import asyncio
 from discord.ext import commands
 from discord import Message, VoiceChannel
 import discord
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, ConfigDict
 
 from .settings import settings
 from .text import clean_text
@@ -16,8 +16,9 @@ class TTSContext(BaseModel):
     voice_channel: VoiceChannel
     text: str
 
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True
+    )
 
 
 class TTSBot(commands.Bot):
