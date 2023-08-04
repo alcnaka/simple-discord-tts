@@ -1,6 +1,5 @@
 from logging import getLogger
 import asyncio
-import re
 
 from discord.ext import commands
 from discord import Message, VoiceChannel
@@ -8,6 +7,7 @@ import discord
 from pydantic import BaseModel, validator
 
 from .settings import settings
+from .text import clean_text
 
 logger = getLogger(__name__)
 
@@ -54,15 +54,6 @@ class TTSBot(commands.Bot):
             return False
         return True
 
-    @staticmethod
-    def clean_text(t: str) -> str:
-        """_summary_
-        <:ika:446992338573852676> -> ''
-        <:c_jett:868832655918137345> -> ''
-        """
-        return re.sub(r"<:.*[0-9]*>", "", t)
-
-
     async def on_message(self, message: Message, ) -> None:
         """キュー入れとか"""
         if not self.is_tts_message(message):
@@ -81,7 +72,7 @@ class TTSBot(commands.Bot):
             await message.reply('VCに参加してね')
             return
 
-        cleaned_text = self.clean_text(message.clean_content)
+        cleaned_text = clean_text(message.clean_content)
 
         if len(cleaned_text) == 0:
             return
