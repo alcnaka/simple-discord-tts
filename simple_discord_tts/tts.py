@@ -13,7 +13,7 @@ async def tts(t: str) -> bytes:
         "pitch": 0,
         "vtype": 0.55,
         "syn_text": t,
-        "normalize": False
+        "normalize": True
     }
     r = httpx.post(settings.VOICE_BACKEND_URL, json=data)
     if r.status_code != 200:
