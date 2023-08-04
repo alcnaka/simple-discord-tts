@@ -25,6 +25,8 @@ class ClearCog(commands.Cog):
     async def clear_all(self, ctx) -> None:
         """全テキストを削除"""
         channel = self.bot.get_channel(self.bot.listen_channel_id)
+        two_weeks_ago = datetime.now() - timedelta(days=14)
         if type(channel) == TextChannel:
-            msgs = [m async for m in channel.history()]
+            msgs = [m async for m in channel.history(after=two_weeks_ago)]
             await channel.delete_messages(msgs)
+            [await m.delete() async for m in channel.history()]
