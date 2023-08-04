@@ -25,9 +25,12 @@ def main() -> None:
 
 def setup_logger() -> None:
     logger = logging.getLogger('simple_discord_tts')
-    logger.setLevel(logging.INFO)
+    if settings.DEBUG:
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
 
 if __name__ == "__main__":
-    import logging
-    # logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.INFO)
+    setup_logger()
     main()
