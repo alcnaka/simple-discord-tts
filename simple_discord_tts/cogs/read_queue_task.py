@@ -32,7 +32,7 @@ class ReadQueueCog(commands.Cog):
         except ClientException as e:
             logger.info('already joined')
             logger.info(f'VoiceClientCount: {len(self.bot.voice_clients)}')
-            voice_client = self.bot.voice_clients[0]
+            voice_client = ctx.voice_channel.guild.voice_client
             if type(voice_client) != VoiceClient:
                 logger.warning(voice_client)
                 return
