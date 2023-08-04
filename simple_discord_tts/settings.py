@@ -6,6 +6,8 @@ class Settings(BaseSettings):
     LISTEN_CHANNEL_ID: int
     VOICE_BACKEND_URL: str
 
+    DEBUG: bool = False
+
     model_config = SettingsConfigDict(
         env_file=".env"
     )
