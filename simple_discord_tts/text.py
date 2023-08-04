@@ -8,6 +8,13 @@ def clean_emoji(t: str) -> str:
     """
     return re.sub(r"<:.*[0-9]*>", "", t)
 
+def clean_url(t: str) -> str:
+    """_summary_
+    """
+    return re.sub(r"https?://[\w!?/+\-_~;.,*&@#$%()'[\]]+", "", t)
+
 def clean_text(t: str) -> str:
     t = clean_emoji(t)
+    t = clean_url(t)
+    t = t.strip()
     return t
