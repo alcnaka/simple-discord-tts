@@ -27,9 +27,11 @@ class ReadQueueCog(commands.Cog):
     @tasks.loop(seconds=1)
     async def read_queue(self) -> None:
         ctx = await self.bot.queue.get()
+        t = f"Reading queue: {ctx.voice_channel.name} {ctx.text}"
+        logger.debug(t)
         try:
             voice_client = await ctx.voice_channel.connect()
-        except ClientException as e:
+        except ClientException:
             logger.info('already joined')
             logger.info(f'VoiceClientCount: {len(self.bot.voice_clients)}')
             voice_client = ctx.voice_channel.guild.voice_client

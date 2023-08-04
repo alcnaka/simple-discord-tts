@@ -27,7 +27,8 @@ class ClearCog(commands.Cog):
         before = datetime.now() - timedelta(minutes=10)
         if type(channel) == TextChannel:
             msgs = [m async for m in channel.history(before=before)]
-            logger.debug(f'try to delete messages: {len(msgs)}')
+            if len(msgs):
+                logger.debug(f'try to delete messages: {len(msgs)}')
             await channel.delete_messages(msgs)
         logger.debug('clear end')
 
