@@ -47,7 +47,7 @@ class ClearCog(commands.Cog):
             try:
                 msgs = [m async for m in channel.history(after=two_weeks_ago)]
                 await channel.delete_messages(msgs)
-            except:
+            except Exception:
                 logger.exception('メッセージの削除中に例外が発生しました。')
             # TODO: レートリミットに引っかかる
             # [await m.delete() async for m in channel.history()]
