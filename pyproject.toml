@@ -9,8 +9,9 @@ packages = [{include = "simple_discord_tts"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 discord-py = {extras = ["voice"], version = "^2.2.2"}
-pydantic = {extras = ["dotenv"], version = "^1.10.7"}
+pydantic = "^2.0.2"
 httpx = "^0.23.3"
+pydantic-settings = "^2.0.2"
 
 
 [build-system]
