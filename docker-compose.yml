@@ -5,7 +5,8 @@ services:
     build: .
     volumes:
       - ./:/usr/local/src/simple-discord-tts
-
+    restart: always
 
   voice-backend:
     image: alcnaka/openjtalk-rest-api:latest
+    restart: always
