@@ -12,7 +12,7 @@ WORKDIR /usr/local/src/simple-discord-tts
 
 COPY . /usr/local/src/simple-discord-tts
 
-RUN pip install .
+RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
