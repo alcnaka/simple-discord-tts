@@ -47,6 +47,7 @@ class ClearCog(commands.Cog):
         if type(channel) == TextChannel:
             try:
                 msgs = [m async for m in channel.history(after=two_weeks_ago)]
+                logger.debug(f'try to delete messages: {len(msgs)}')
                 await channel.delete_messages(msgs)
             except Exception:
                 logger.exception('メッセージの削除中に例外が発生しました。')
