@@ -1,5 +1,6 @@
 from logging import getLogger
 import asyncio
+import re
 
 from discord.ext import commands
 from discord import Message, VoiceChannel
@@ -53,6 +54,15 @@ class TTSBot(commands.Bot):
             return False
         return True
 
+    @staticmethod
+    def clean_text(t: str) -> str:
+        """_summary_
+        <:ika:446992338573852676> -> ''
+        <:c_jett:868832655918137345> -> ''
+        """
+        return re.sub(r"<:.*[0-9]*>", "", t)
+
+
     async def on_message(self, message: Message, ) -> None:
         """キュー入れとか"""
         if not self.is_tts_message(message):
@@ -71,6 +81,11 @@ class TTSBot(commands.Bot):
             await message.reply('VCに参加してね')
             return
 
-        ctx = TTSContext(voice_channel = voice_channel, text = message.clean_content)
+        cleaned_text = self.clean_text(message.clean_content)
+
+        if len(cleaned_text) == 0:
+            return
+
+        ctx = TTSContext(voice_channel = voice_channel, text = cleaned_text )
         await self.queue.put(ctx)
         print(self.queue.qsize())
