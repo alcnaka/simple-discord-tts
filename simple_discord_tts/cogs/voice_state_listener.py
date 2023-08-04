@@ -19,6 +19,10 @@ class VoiceStateListenerCog(commands.Cog):
     async def on_voice_state_update(
         self, member: Member, before: VoiceState, after: VoiceState
     ) -> None:
+        # Botの参加を読み上げないように
+        if member.bot:
+            return
+
         # 同一チャンネル内の動作は無視
         if before.channel == after.channel:
             return
