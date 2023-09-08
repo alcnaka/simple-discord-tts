@@ -2,9 +2,11 @@ import asyncio
 import wave
 from logging import getLogger
 from tempfile import NamedTemporaryFile
+from typing import Self
 
 from discord import ClientException, FFmpegPCMAudio, PCMVolumeTransformer, VoiceClient
 from discord.ext import commands, tasks
+from discord.ext.commands import Context
 
 from simple_discord_tts.app import TTSBot
 from simple_discord_tts.tts import tts
@@ -13,20 +15,20 @@ logger = getLogger(__name__)
 
 
 class ReadQueueCog(commands.Cog):
-    def __init__(self, bot: TTSBot) -> None:
+    def __init__(self: Self, bot: TTSBot) -> None:
         self.bot = bot
 
     @commands.command()
-    async def reload(self, ctx) -> None:
+    async def reload(self: Self, _: Context) -> None:
         self.read_queue.stop()
         self.read_queue.start()
 
     @commands.Cog.listener()
-    async def on_ready(self) -> None:
+    async def on_ready(self: Self) -> None:
         self.read_queue.start()
 
     @tasks.loop(seconds=1)
-    async def read_queue(self) -> None:
+    async def read_queue(self: Self) -> None:
         ctx = await self.bot.queue.get()
         t = f"Reading queue: {ctx.voice_channel.name} {ctx.text}"
         logger.debug(t)
@@ -60,5 +62,5 @@ class ReadQueueCog(commands.Cog):
             logger.exception("some errors in read_queue")
 
     @tasks.loop(seconds=1)
-    async def auto_leave(self) -> None:
+    async def auto_leave(self: Self) -> None:
         pass

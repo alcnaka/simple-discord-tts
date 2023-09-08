@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
 from logging import getLogger
+from typing import Self
 
 from discord import TextChannel
 from discord.ext import commands, tasks
+from discord.ext.commands import Context
 
 from simple_discord_tts.app import TTSBot
 
@@ -10,18 +12,18 @@ logger = getLogger(__name__)
 
 
 class ClearCog(commands.Cog):
-    def __init__(self, bot: TTSBot) -> None:
+    def __init__(self: Self, bot: TTSBot) -> None:
         self.bot = bot
 
     @commands.Cog.listener()
-    async def on_ready(self) -> None:
+    async def on_ready(self: Self) -> None:
         self.auto_clear.start()
 
     @tasks.loop(minutes=1)
-    async def auto_clear(self) -> None:
+    async def auto_clear(self: Self) -> None:
         await self._clear()
 
-    async def _clear(self) -> None:
+    async def _clear(self: Self) -> None:
         """10分以上前のテキストを削除."""
         logger.debug("clear start")
         channel = self.bot.get_channel(self.bot.listen_channel_id)
@@ -34,13 +36,13 @@ class ClearCog(commands.Cog):
         logger.debug("clear end")
 
     @commands.command()
-    async def clear(self, ctx) -> None:
+    async def clear(self: Self, _: Context) -> None:
         logger.debug("command: clear")
         await self._clear()
         logger.debug("command: clear")
 
     @commands.command()
-    async def clear_all(self, ctx) -> None:
+    async def clear_all(self: Self, _: Context) -> None:
         """全テキストを削除."""
         logger.debug("command: clear_all start")
         channel = self.bot.get_channel(self.bot.listen_channel_id)

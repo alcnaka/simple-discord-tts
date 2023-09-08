@@ -1,5 +1,6 @@
 import asyncio
 from logging import getLogger
+from typing import Self
 
 import discord
 from discord import Message, VoiceChannel
@@ -20,17 +21,17 @@ class TTSContext(BaseModel):
 
 
 class TTSBot(commands.Bot):
-    def __init__(self, command_prefix: str, intents: discord.Intents) -> None:
+    def __init__(self: Self, command_prefix: str, intents: discord.Intents) -> None:
         super().__init__(command_prefix=command_prefix, intents=intents)
         self.queue: asyncio.Queue[TTSContext] = asyncio.Queue()
         self.listen_channel_id = settings.LISTEN_CHANNEL_ID
 
         self.max_tts_len = 50
 
-    def flush_queue(self) -> None:
+    def flush_queue(self: Self) -> None:
         self.queue: asyncio.Queue[TTSContext] = asyncio.Queue()
 
-    async def on_ready(self) -> None:
+    async def on_ready(self: Self) -> None:
         logger.info("------")
         logger.info("Logged in as")
         if self.user:
@@ -42,7 +43,7 @@ class TTSBot(commands.Bot):
             logger.info("ListenChannel: " + channel.name)
         logger.info("------")
 
-    def is_tts_message(self, message: Message) -> bool:
+    def is_tts_message(self: Self, message: Message) -> bool:
         """無視するメッセージを定義."""
         if message.author == self.user:
             return False
@@ -55,14 +56,16 @@ class TTSBot(commands.Bot):
         return True
 
     async def on_message(
-        self,
+        self: Self,
         message: Message,
     ) -> None:
         """キュー入れとか."""
         if not self.is_tts_message(message):
             return None
 
-        if message.content.startswith(self.command_prefix):  # type: ignore
+        if message.content.startswith(
+            self.command_prefix,  # type: ignore[reportGeneralTypeIssues]
+        ):
             # コマンドの実行に回す
             return await super().on_message(message)
 
