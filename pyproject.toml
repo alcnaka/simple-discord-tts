@@ -4,11 +4,11 @@ version = "0.1.0"
 description = ""
 authors = ["alcnaka <47954083+alcnaka@users.noreply.github.com>"]
 readme = "README.md"
-packages = [{include = "simple_discord_tts"}]
+packages = [{ include = "simple_discord_tts" }]
 
 [tool.poetry.dependencies]
-python = "^3.10"
-"discord.py" = {extras = ["voice"], version = "^2.2.2"}
+python = "^3.11"
+"discord.py" = { extras = ["voice"], version = "^2.2.2" }
 pydantic = "^2.0.2"
 httpx = "^0.23.3"
 pydantic-settings = "^2.0.2"
