@@ -8,9 +8,7 @@ class Settings(BaseSettings):
 
     DEBUG: bool = False
 
-    model_config = SettingsConfigDict(
-        env_file=".env"
-    )
+    model_config = SettingsConfigDict(env_file=".env")
 
 
 settings = Settings()  # type: ignore

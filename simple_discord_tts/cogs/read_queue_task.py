@@ -1,15 +1,16 @@
 import asyncio
+import wave
 from logging import getLogger
 from tempfile import NamedTemporaryFile
-import wave
 
+from discord import ClientException, FFmpegPCMAudio, PCMVolumeTransformer, VoiceClient
 from discord.ext import commands, tasks
-from discord import Message, ClientException, VoiceClient, FFmpegPCMAudio, PCMVolumeTransformer
 
-from simple_discord_tts.app import TTSContext, TTSBot
+from simple_discord_tts.app import TTSBot
 from simple_discord_tts.tts import tts
 
 logger = getLogger(__name__)
+
 
 class ReadQueueCog(commands.Cog):
     def __init__(self, bot: TTSBot) -> None:
@@ -32,8 +33,8 @@ class ReadQueueCog(commands.Cog):
         try:
             voice_client = await ctx.voice_channel.connect()
         except ClientException:
-            logger.info('already joined')
-            logger.info(f'VoiceClientCount: {len(self.bot.voice_clients)}')
+            logger.info("already joined")
+            logger.info(f"VoiceClientCount: {len(self.bot.voice_clients)}")
             voice_client = ctx.voice_channel.guild.voice_client
             if type(voice_client) != VoiceClient:
                 logger.warning(voice_client)
@@ -46,7 +47,7 @@ class ReadQueueCog(commands.Cog):
 
         try:
             with NamedTemporaryFile() as f:
-                wav = (await tts(ctx.text))
+                wav = await tts(ctx.text)
                 f.write(wav)
                 audio_source = FFmpegPCMAudio(f.name)
                 audio_source = PCMVolumeTransformer(audio_source, 0.18)
@@ -56,8 +57,7 @@ class ReadQueueCog(commands.Cog):
                 voice_client.play(audio_source)
                 await asyncio.sleep(pt + 0.2)
         except Exception:
-            logger.exception('some errors in read_queue')
-
+            logger.exception("some errors in read_queue")
 
     @tasks.loop(seconds=1)
     async def auto_leave(self) -> None:

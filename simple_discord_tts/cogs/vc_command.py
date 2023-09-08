@@ -1,12 +1,11 @@
-from datetime import datetime, timedelta
 from logging import getLogger
 
 from discord.ext import commands
-from discord import Message, TextChannel
 
 from simple_discord_tts.app import TTSBot
 
 logger = getLogger(__name__)
+
 
 class ControlCommand(commands.Cog):
     def __init__(self, bot: TTSBot) -> None:

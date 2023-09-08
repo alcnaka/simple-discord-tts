@@ -1,23 +1,21 @@
 from logging import getLogger
 
-from discord import VoiceState, Member, VoiceChannel
+from discord import Member, VoiceChannel, VoiceState
 from discord.ext import commands
-from simple_discord_tts.app import TTSBot
 
-from ..app import TTSContext
-
+from simple_discord_tts.app import TTSBot, TTSContext
 
 logger = getLogger(__name__)
 
 
 class VoiceStateListenerCog(commands.Cog):
     def __init__(self, bot: TTSBot) -> None:
-        logger.debug('VoiceStateListenCog is initialized')
+        logger.debug("VoiceStateListenCog is initialized")
         self.bot = bot
 
     @commands.Cog.listener()
     async def on_voice_state_update(
-        self, member: Member, before: VoiceState, after: VoiceState
+        self, member: Member, before: VoiceState, after: VoiceState,
     ) -> None:
         # Botの参加を読み上げないように
         if member.bot:
