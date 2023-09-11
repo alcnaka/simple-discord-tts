@@ -12,6 +12,7 @@ python = "^3.11"
 pydantic = "^2.0.2"
 httpx = "^0.23.3"
 pydantic-settings = "^2.0.2"
+aiofiles = "^23.2.1"
 
 
 [tool.poetry.group.dev.dependencies]

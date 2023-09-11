@@ -1,10 +1,14 @@
 from logging import getLogger
 
+import aiofiles
 import httpx
 
 from .settings import settings
 
 logger = getLogger(__name__)
+
+
+HTTP_OK = 200
 
 
 async def tts(t: str) -> bytes:
@@ -16,16 +20,17 @@ async def tts(t: str) -> bytes:
         "syn_text": t,
         "normalize": True,
     }
-    r = httpx.post(settings.VOICE_BACKEND_URL, json=data)
-    if r.status_code != 200:
-        logger.warning(f"TTS Request Failed ({ r.status_code }: {r.text})")
+    async with httpx.AsyncClient() as client:
+        r = await client.post(settings.VOICE_BACKEND_URL, json=data)
+        if r.status_code != HTTP_OK:
+            logger.warning(f"TTS Request Failed ({ r.status_code }: {r.text})")
     return r.content
 
 
 async def main() -> None:
     voice_data = await tts("てすと")
-    with open("test.wav", mode="bw") as f:
-        f.write(voice_data)
+    async with aiofiles.open("test.wav", mode="bw") as f:
+        await f.write(voice_data)
 
 
 if __name__ == "__main__":
