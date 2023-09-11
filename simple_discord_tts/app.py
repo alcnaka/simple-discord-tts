@@ -7,6 +7,7 @@ from discord import Message, VoiceChannel
 from discord.ext import commands
 from pydantic import BaseModel, ConfigDict
 
+from .attachment import extract_filetypes
 from .settings import settings
 from .text import clean_text
 
@@ -79,12 +80,19 @@ class TTSBot(commands.Bot):
             await message.reply("VCに参加してね")
             return None
 
+        # 絵文字等を除いたテキストを取得
         cleaned_text = clean_text(message.clean_content)
 
-        if len(cleaned_text) == 0:
+        # 添付ファイルから読み上げ内容を取得
+        attachment_text = extract_filetypes([a.filename for a in message.attachments])
+
+        tts_text = cleaned_text + attachment_text
+
+        # 読み上げる中身が無いときは何もしない
+        if len(tts_text) == 0:
             return None
 
-        ctx = TTSContext(voice_channel=voice_channel, text=cleaned_text)
+        ctx = TTSContext(voice_channel=voice_channel, text=tts_text)
         await self.queue.put(ctx)
         print(self.queue.qsize())
         return None
