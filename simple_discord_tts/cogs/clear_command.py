@@ -5,10 +5,13 @@ from typing import Self
 from discord import TextChannel
 from discord.ext import commands, tasks
 from discord.ext.commands import Context
+from zoneinfo import ZoneInfo
 
 from simple_discord_tts.app import TTSBot
 
 logger = getLogger(__name__)
+
+JST = ZoneInfo("Asia/Tokyo")
 
 
 class ClearCog(commands.Cog):
@@ -27,7 +30,7 @@ class ClearCog(commands.Cog):
         """10分以上前のテキストを削除."""
         logger.debug("clear start")
         channel = self.bot.get_channel(self.bot.listen_channel_id)
-        before = datetime.now() - timedelta(minutes=10)
+        before = datetime.now(JST) - timedelta(minutes=10)
         if type(channel) == TextChannel:
             msgs = [m async for m in channel.history(before=before)]
             if len(msgs):
@@ -46,7 +49,7 @@ class ClearCog(commands.Cog):
         """全テキストを削除."""
         logger.debug("command: clear_all start")
         channel = self.bot.get_channel(self.bot.listen_channel_id)
-        two_weeks_ago = datetime.now() - timedelta(days=14)
+        two_weeks_ago = datetime.now(JST) - timedelta(days=14)
         if type(channel) == TextChannel:
             try:
                 msgs = [m async for m in channel.history(after=two_weeks_ago)]
