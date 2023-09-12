@@ -33,13 +33,10 @@ AUDIO_EXT = [
 ]
 
 
-def judge_filetype(filename: str) -> str | None:
+def judge_filetype(filename: str) -> str:
     ext = Path(filename).suffix
-    if len(ext) == 0:
-        return None
-
     # ドットを削除
-    ext = ext[1:]
+    ext = ext.replace(".", "")
     logger.debug("filename: %s, ext: %s", filename, ext)
     if ext.lower() in IMAGE_EXT:
         return "画像"
@@ -47,7 +44,7 @@ def judge_filetype(filename: str) -> str | None:
         return "動画"
     if ext.lower() in AUDIO_EXT:
         return "音声"
-    return None
+    return "ファイル"
 
 
 def extract_filetypes(filenames: list[str]) -> str:
