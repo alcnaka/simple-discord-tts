@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from logging import getLogger
 from typing import Self
 
@@ -7,6 +9,14 @@ from discord.ext import commands
 from simple_discord_tts.app import TTSBot, TTSContext
 
 logger = getLogger(__name__)
+
+
+def _is_human(m: Member) -> bool:
+    return not m.bot
+
+
+def extract_humans(members: list[Member]) -> list[Member]:
+    return list(filter(_is_human, members))
 
 
 class VoiceStateListenerCog(commands.Cog):
@@ -50,6 +60,14 @@ class VoiceStateListenerCog(commands.Cog):
                 and before.channel == bot_vc.channel
                 and type(before.channel) == VoiceChannel
             ):
+                # AutoLeave
+                humans = extract_humans(before.channel.members)
+                logger.debug(humans)
+                if not extract_humans(before.channel.members):
+                    logger.debug("AutoLeave")
+                    await bot_vc.disconnect(force=True)
+                    return
+
                 t = f"{callme} が切断しました。"
                 logger.debug(t)
                 tts_ctx = TTSContext(voice_channel=before.channel, text=t)
