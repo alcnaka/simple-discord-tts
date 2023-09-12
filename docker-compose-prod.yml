@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  tts:
+    build: .
+    restart: always
+
+  voice-backend:
+    image: alcnaka/openjtalk-rest-api:latest
+    restart: always
