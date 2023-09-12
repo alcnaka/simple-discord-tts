@@ -12,7 +12,7 @@ def clean_emoji(t: str) -> str:
 
 def clean_url(t: str) -> str:
     """Remove URL from string."""
-    return re.sub(r"https?://[\w!?/+\-_~;.,*&@#$%()'[\]]+", "", t)
+    return re.sub(r"https?://[\w!?/+\-_~;.,*&@#$%()'[\]=]+", "", t)
 
 
 def clean_text(t: str) -> str:
