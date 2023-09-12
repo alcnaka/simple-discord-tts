@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+from logging import getLogger
 from pathlib import Path
+
+logger = getLogger(__name__)
 
 IMAGE_EXT = [
     "jpg",
@@ -32,6 +35,12 @@ AUDIO_EXT = [
 
 def judge_filetype(filename: str) -> str | None:
     ext = Path(filename).suffix
+    if len(ext) == 0:
+        return None
+
+    # ドットを削除
+    ext = ext[1:]
+    logger.debug("filename: %s, ext: %s", filename, ext)
     if ext.lower() in IMAGE_EXT:
         return "画像"
     if ext.lower() in VIDEO_EXT:
@@ -46,11 +55,13 @@ def extract_filetypes(filenames: list[str]) -> str:
 
     「画像,音声を送信しました」
     """
+    logger.debug("receved files: %s", str(filenames))
     result = set()
     for f in filenames:
         t = judge_filetype(f)
         if t:
             result.add(t)
+    logger.debug(result)
     if result:
         return ",".join(result) + "を送信しました。"
     return ""
