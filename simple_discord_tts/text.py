@@ -7,12 +7,12 @@ def clean_emoji(t: str) -> str:
     <:ika:446992338573852676> -> ''
     <:c_jett:868832655918137345> -> ''
     """
-    return re.sub(r"<:.*[0-9]*>", "", t)
+    return re.sub(r"<:.*[0-9]*>", "", t).strip()
 
 
 def clean_url(t: str) -> str:
     """Remove URL from string."""
-    return re.sub(r"https?://[\w!?/+\-_~;.,*&@#$%()'[\]=]+", "", t)
+    return re.sub(r"https?://[\w!?/+\-_~;.,*&@#$%()'[\]=]+", "", t).strip()
 
 
 def clean_text(t: str) -> str:

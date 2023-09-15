@@ -12,3 +12,6 @@ class TestCleanUrl(TestCase):
 
     def test_query(self):
         assert clean_url("https://example.com/test/path?key=value") == ""
+
+    def test_query2(self):
+        assert clean_url("https://example.com/test/path?key=value asdf") == "asdf"
