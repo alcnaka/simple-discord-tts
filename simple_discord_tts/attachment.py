@@ -7,43 +7,39 @@ from pathlib import Path
 
 logger = getLogger(__name__)
 
-IMAGE_EXT = [
-    "jpg",
-    "jpeg",
-    "png",
-    "aping",
-    "gif",
-    "tiff",
-    "bmp",
-    "webp",
-]
-
-VIDEO_EXT = [
-    "mp4",
-    "webm",
-    "avi",
-    "mov",
-]
-
-AUDIO_EXT = [
-    "mp3",
-    "m4a",
-    "wav",
-    "flac",
-]
+filetypes = {
+    "画像": [
+        "jpg",
+        "jpeg",
+        "png",
+        "aping",
+        "gif",
+        "tiff",
+        "bmp",
+        "webp",
+    ],
+    "動画": [
+        "mp4",
+        "webm",
+        "avi",
+        "mov",
+    ],
+    "音声": [
+        "mp3",
+        "m4a",
+        "wav",
+        "flac",
+    ],
+}
 
 
 def judge_filetype(filename: str) -> str:
     ext = Path(filename).suffix
     # ドットを削除
     ext = ext.replace(".", "")
-    logger.debug("filename: %s, ext: %s", filename, ext)
-    if ext.lower() in IMAGE_EXT:
-        return "画像"
-    if ext.lower() in VIDEO_EXT:
-        return "動画"
-    if ext.lower() in AUDIO_EXT:
-        return "音声"
+    for key in filetypes:
+        if ext.lower() in filetypes[key]:
+            return key
     return "ファイル"
 
 
