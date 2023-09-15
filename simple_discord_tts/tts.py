@@ -20,10 +20,11 @@ async def tts(t: str) -> bytes:
         "syn_text": t,
         "normalize": True,
     }
+    logger.debug("tts: %s", str(data))
     async with httpx.AsyncClient() as client:
         r = await client.post(settings.VOICE_BACKEND_URL, json=data)
         if r.status_code != HTTP_OK:
-            logger.warning(f"TTS Request Failed ({ r.status_code }: {r.text})")
+            logger.warning("TTS Request Failed (%s: %s)", r.status_code, r.text)
     return r.content
 
 

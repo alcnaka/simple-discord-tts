@@ -36,12 +36,12 @@ class TTSBot(commands.Bot):
         logger.info("------")
         logger.info("Logged in as")
         if self.user:
-            logger.info("NAME: " + self.user.name)
-            logger.info("ID: " + str(self.user.id))
+            logger.info("NAME: %s", self.user.name)
+            logger.info("ID: %s", str(self.user.id))
         if (channel := self.get_channel(settings.LISTEN_CHANNEL_ID)) and (
             isinstance(channel, discord.abc.GuildChannel)
         ):
-            logger.info("ListenChannel: " + channel.name)
+            logger.info("ListenChannel: %s", channel.name)
         logger.info("------")
 
     def is_tts_message(self: Self, message: Message) -> bool:
@@ -90,9 +90,11 @@ class TTSBot(commands.Bot):
 
         # 読み上げる中身が無いときは何もしない
         if len(tts_text) == 0:
+            logger.debug("empty message")
             return None
 
         ctx = TTSContext(voice_channel=voice_channel, text=tts_text)
+        logger.debug("queing: %s", str(ctx))
         await self.queue.put(ctx)
-        print(self.queue.qsize())
+        logger.debug("queued (qsize: %s)", self.queue.qsize)
         return None
