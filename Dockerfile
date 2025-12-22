@@ -1,4 +1,7 @@
-FROM python:3.11
+FROM ghcr.io/astral-sh/uv:python3.14-trixie
+
+ENV UV_NO_DEV=1
+
 
 RUN apt-get update \
     && apt-get -y install \
@@ -12,8 +15,8 @@ WORKDIR /usr/local/src/simple-discord-tts
 
 COPY . /usr/local/src/simple-discord-tts
 
-RUN pip install -r requirements.txt
+RUN uv sync --locked
 
 EXPOSE 8000
 
-CMD ["python3", "-m", "simple_discord_tts.main"]
+CMD ["uv", "run", "python", "-m", "simple_discord_tts.main"]

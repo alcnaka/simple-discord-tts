@@ -1,24 +1,13 @@
-[tool.poetry]
+[project]
 name = "simple-discord-tts"
 version = "0.1.0"
-description = ""
-authors = ["alcnaka <47954083+alcnaka@users.noreply.github.com>"]
+description = "Add your description here"
 readme = "README.md"
-packages = [{ include = "simple_discord_tts" }]
-
-[tool.poetry.dependencies]
-python = "^3.11"
-"discord.py" = { extras = ["voice"], version = "^2.2.2" }
-pydantic = "^2.0.2"
-httpx = "^0.23.3"
-pydantic-settings = "^2.0.2"
-aiofiles = "^23.2.1"
-
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.0.287"
-pytest = "^7.4.2"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.13"
+dependencies = [
+    "aiofiles>=25.1.0",
+    "discord-py[voice]>=2.6.4",
+    "httpx>=0.28.1",
+    "pydantic>=2.12.5",
+    "pydantic-settings>=2.12.0",
+]
