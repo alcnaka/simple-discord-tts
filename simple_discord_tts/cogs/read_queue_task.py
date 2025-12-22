@@ -51,6 +51,7 @@ class ReadQueueCog(commands.Cog):
             with NamedTemporaryFile() as f:
                 wav = await tts(ctx.text)
                 f.write(wav)
+                f.flush()
                 audio_source = FFmpegPCMAudio(f.name)
                 audio_source = PCMVolumeTransformer(audio_source, 0.18)
                 with wave.open(f.name) as wr:
