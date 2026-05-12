@@ -1,0 +1,14 @@
+services:
+  tts:
+    command: sleep infinity
+    restart: "no"
+    environment:
+      UV_NO_DEV: "0"
+    volumes:
+      - ..:/usr/local/src/simple-discord-tts:cached
+      - uv-cache:/root/.cache/uv
+      - tts-venv:/usr/local/src/simple-discord-tts/.venv
+
+volumes:
+  uv-cache:
+  tts-venv:

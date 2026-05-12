@@ -1,0 +1,27 @@
+{
+  "name": "simple-discord-tts",
+  "dockerComposeFile": [
+    "../compose.yml",
+    "docker-compose.devcontainer.yml"
+  ],
+  "service": "tts",
+  "workspaceFolder": "/usr/local/src/simple-discord-tts",
+  "shutdownAction": "stopCompose",
+  "postCreateCommand": "uv sync --locked",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/src/simple-discord-tts/.venv/bin/python",
+        "python.terminal.activateEnvironment": true,
+        "python.analysis.extraPaths": [
+          "/usr/local/src/simple-discord-tts"
+        ]
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff"
+      ]
+    }
+  }
+}
