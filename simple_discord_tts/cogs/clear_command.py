@@ -43,6 +43,8 @@ class ClearCog(commands.Cog):
                 await channel.delete_messages(msgs)
             except Forbidden:
                 logger.exception("Don't have permission")
+            except Exception:
+                logger.exception("Failed to delete messages")
         logger.debug("clear end")
 
     @commands.command()
