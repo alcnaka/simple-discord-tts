@@ -33,13 +33,13 @@ class ClearCog(commands.Cog):
         channel = self.bot.get_channel(self.bot.listen_channel_id)
         before = datetime.now(JST) - timedelta(minutes=before_minutes)
         two_weeks_ago = datetime.now(JST) - timedelta(days=14)
-        if type(channel) == TextChannel:
-            msgs = [
-                m async for m in channel.history(before=before, after=two_weeks_ago)
-            ]
-            if len(msgs):
-                logger.debug("try to delete messages: %s", len(msgs))
+        if isinstance(channel, TextChannel):
             try:
+                msgs = [
+                    m async for m in channel.history(before=before, after=two_weeks_ago)
+                ]
+                if len(msgs) > 0:
+                    logger.debug("try to delete messages: %s", len(msgs))
                 await channel.delete_messages(msgs)
             except Forbidden:
                 logger.exception("Don't have permission")
