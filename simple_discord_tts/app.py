@@ -30,7 +30,13 @@ class TTSBot(commands.Bot):
         self.max_tts_len = 50
 
     def flush_queue(self: Self) -> None:
-        self.queue: asyncio.Queue[TTSContext] = asyncio.Queue()
+        while True:
+            try:
+                self.queue.get_nowait()
+            except asyncio.QueueEmpty:
+                break
+            else:
+                self.queue.task_done()
 
     async def on_ready(self: Self) -> None:
         logger.info("------")
@@ -94,7 +100,7 @@ class TTSBot(commands.Bot):
             return None
 
         ctx = TTSContext(voice_channel=voice_channel, text=tts_text)
-        logger.debug("queing: %s", str(ctx))
+        logger.debug("queuing guild=%s text_len=%s", voice_channel.guild.id, len(tts_text))
         await self.queue.put(ctx)
-        logger.debug("queued (qsize: %s)", self.queue.qsize)
+        logger.debug("queued qsize=%s", self.queue.qsize())
         return None
